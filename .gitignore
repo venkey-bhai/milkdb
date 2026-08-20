@@ -1,0 +1,21 @@
+# Created by venv; see https://docs.python.org/3/library/venv.html
+
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Node
+node_modules/
+.next/
+
+# Environment
+.env
+
+# Generated files
+*.db
+*.pdf
+*.xlsx
+
+# Editor
+.vscode/
