@@ -19,21 +19,28 @@
 #     finally:
 #         db.close()
 
+
 import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
 
-# Format: postgresql://<username>:<password>@<host>:<port>/<database_name>
-# DATABASE_URL = "postgresql://postgres:9884@localhost:5432/MilkDB"
-
-DATABASE_URL = os.getenv("psql -h aws-0-ap-south-1.pooler.supabase.com -p 5432 -d postgres -U postgres.vwetpzckxararoiezstk")
+# Get the connection string from Render environment variables
+DATABASE_URL = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
     raise ValueError("DATABASE_URL environment variable is missing")
 
-engine = create_engine(DATABASE_URL)
+engine = create_engine(
+    DATABASE_URL,
+    pool_pre_ping=True,
+    connect_args={"sslmode": "require"}
+)
 
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+SessionLocal = sessionmaker(
+    autocommit=False,
+    autoflush=False,
+    bind=engine
+)
 
 Base = declarative_base()
 
